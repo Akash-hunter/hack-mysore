@@ -108,4 +108,12 @@ def create_app(test_config=None):
     def health():
         return {"status": "ok"}, 200
 
+    @app.after_request
+    def add_cors_headers(response):
+        allowed_origin = os.environ.get("CORS_ALLOWED_ORIGIN", "*")
+        response.headers["Access-Control-Allow-Origin"] = allowed_origin
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+        return response
+
     return app
