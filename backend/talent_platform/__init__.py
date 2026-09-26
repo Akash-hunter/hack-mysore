@@ -14,12 +14,21 @@ from .demo_data import DEMO_DATA
 
 def create_app(test_config=None):
     app = Flask(__name__)
+
+    raw_database_url = os.environ.get(
+        "DATABASE_URL",
+        "postgresql+psycopg://talent_app:local_dev_only@localhost:5432/talent_ecosystem",
+    )
+    if raw_database_url.startswith("postgres://"):
+        database_url = raw_database_url.replace("postgres://", "postgresql+psycopg://", 1)
+    elif raw_database_url.startswith("postgresql://") and not raw_database_url.startswith("postgresql+"):
+        database_url = raw_database_url.replace("postgresql://", "postgresql+psycopg://", 1)
+    else:
+        database_url = raw_database_url
+
     app.config.from_mapping(
-        SECRET_KEY=os.environ.get("SECRET_KEY") or os.urandom(32),
-        SQLALCHEMY_DATABASE_URI=os.environ.get(
-            "DATABASE_URL",
-            "postgresql+psycopg://talent_app:local_dev_only@localhost:5432/talent_ecosystem",
-        ),
+        SECRET_KEY=os.environ.get("SECRET_KEY") or "talent-ecosystem-dev-secret-key-change-in-prod",
+        SQLALCHEMY_DATABASE_URI=database_url,
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
     )
     if test_config:
