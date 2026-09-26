@@ -7,3 +7,6 @@ instance/
 *.egg-info/
 .coverage
 htmlcov/
+*.db
+*.sqlite
+*.sqlite3

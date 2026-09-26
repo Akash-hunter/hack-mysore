@@ -39,6 +39,12 @@ def create_app(test_config=None):
     db.init_app(app)
     migrate.init_app(app, db)
 
+    with app.app_context():
+        try:
+            db.create_all()
+        except Exception:
+            pass
+
     from .services.monitoring.routes import monitoring_bp
     app.register_blueprint(monitoring_bp, url_prefix="/api/monitoring")
 
