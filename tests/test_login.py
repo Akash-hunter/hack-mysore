@@ -19,6 +19,7 @@ def test_login_assets_are_served():
     assert client.get("/static/account-flow.js").status_code == 200
     assert client.get("/static/role-select.js").status_code == 200
     assert client.get("/static/landing.css").status_code == 200
+    assert client.get("/static/student-nav.js").status_code == 200
 
 
 def test_role_selection_opens_each_matching_portal():
@@ -38,6 +39,27 @@ def test_role_selection_opens_each_matching_portal():
         other_roles = {"student", "recruiter", "institution"} - {role}
         for other_role in other_roles:
             assert f'id="{other_role}-dashboard"'.encode() not in response.data
+
+        if role == "student":
+            for label in (
+                "Dashboard",
+                "My Profile",
+                "My Skills",
+                "Projects",
+                "Connected Platforms",
+                "Assessments",
+                "Hackathons",
+                "Jobs &amp; Internships",
+                "Applications",
+                "Certifications",
+                "My Progress",
+                "AI Recommendations",
+                "Messages",
+                "Notifications",
+                "Settings",
+            ):
+                assert label.encode() in response.data
+            assert b"data-dashboard-tab" not in response.data
 
 
 def test_preview_session_cannot_open_another_role_until_signout():

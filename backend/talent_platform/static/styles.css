@@ -107,6 +107,32 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
   background: #2a5144;
   box-shadow: inset 3px 0 var(--coral);
 }
+.student-navigation { display: flex; flex: 1; flex-direction: column; gap: 2px; min-height: 0; margin: 20px 0 8px; overflow-y: auto; overscroll-behavior: contain; scrollbar-color: #527164 transparent; scrollbar-width: thin; }
+.student-nav-link { flex: 0 0 auto; gap: 8px; min-height: 32px; padding: 0 7px; font-size: 10px; }
+.student-nav-link.active { box-shadow: inset 3px 0 var(--coral); }
+.student-nav-icon { display: grid; flex: 0 0 18px; place-items: center; width: 18px; height: 18px; font-size: 12px; }
+.student-workspace-label { margin-top: 25px; margin-bottom: 4px; }
+.student-sidebar .sidebar-logout { flex: 0 0 auto; margin: 0 8px 7px; }
+.student-module, .student-profile-anchor, #student-skills, #student-projects { scroll-margin-top: 16px; }
+.student-module { margin-top: 14px; }
+.student-record-list { padding: 0 15px; }
+.student-record-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 53px; border-bottom: 1px solid #edf0ed; }
+.student-record-row:last-child { border-bottom: 0; }
+.student-record-row > div { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.student-record-row strong { overflow: hidden; color: #2a3933; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.student-record-row > div span, .record-date { color: #7b8781; font-size: 9px; }
+.record-state { flex: 0 0 auto; color: #596b61; font-size: 9px; text-align: right; }
+.student-empty-state { display: flex; flex-direction: column; gap: 6px; padding: 24px 15px; }
+.student-empty-state strong { color: #37473f; font-size: 10px; }
+.student-empty-state span { color: #7b8781; font-size: 9px; }
+.progress-chart { display: flex; align-items: flex-end; justify-content: space-around; gap: 16px; min-height: 140px; padding: 18px 18px 10px; border-bottom: 1px solid #edf0ed; }
+.progress-column { display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: flex-end; gap: 7px; min-height: 110px; }
+.progress-value, .progress-period { color: #78857e; font-size: 8px; }
+.progress-bar { width: min(34px, 70%); height: var(--progress-height); border-radius: 4px 4px 0 0; background: linear-gradient(0deg, var(--teal), #9fc7a1); }
+.recommendation-copy { display: flex; align-items: flex-start; gap: 11px; padding: 16px 15px; }
+.recommendation-mark { display: grid; flex: 0 0 25px; place-items: center; width: 25px; height: 25px; color: #754a36; border-radius: 4px; background: #f4e8df; font: 700 12px Georgia, serif; }
+.recommendation-copy strong { color: #2d4037; font-size: 10px; }
+.recommendation-copy p { margin: 5px 0 0; color: #738078; font-size: 9px; line-height: 1.5; }
 .nav-glyph { color: #94b5a6; font-size: 9px; font-weight: 700; }
 .sidebar-divider { height: 1px; margin: 22px 8px; background: var(--line-dark); }
 .sidebar-logout { margin: 8px 8px 0; }
@@ -499,6 +525,13 @@ h1 {
 
 @media (max-width: 900px) {
   .sidebar { position: static; width: auto; min-height: 58px; height: 58px; flex-direction: row; align-items: center; padding: 0 18px; }
+  .sidebar.student-sidebar { position: relative; height: auto; min-height: 0; flex-direction: column; align-items: stretch; padding: 10px 14px 8px; }
+  .student-sidebar .brand { margin-right: 95px; }
+  .student-sidebar .workspace-label { display: none; }
+  .student-sidebar .student-navigation { flex: 0 0 auto; flex-direction: row; gap: 3px; margin: 8px -3px 0; padding: 0 3px 4px; overflow-x: auto; overflow-y: hidden; }
+  .student-sidebar .student-nav-link { width: auto; min-height: 33px; margin: 0; padding: 0 8px; white-space: nowrap; }
+  .student-sidebar .sidebar-logout { position: absolute; top: 21px; right: 15px; margin: 0; }
+  .student-sidebar .sidebar-divider, .student-sidebar .sidebar-note, .student-sidebar .sidebar-bottom { display: none; }
   .brand { flex: 0 0 auto; }
   .workspace-label, .sidebar-divider, .sidebar-note, .sidebar-bottom { display: none; }
   .nav-link { margin-left: auto; min-height: 34px; padding: 0 9px; font-size: 10px; }
@@ -509,6 +542,9 @@ h1 {
 
 @media (max-width: 700px) {
   .sidebar { padding: 0 12px; }
+  .sidebar.student-sidebar { padding: 9px 12px 7px; }
+  .student-sidebar .student-nav-link { gap: 6px; font-size: 9px; }
+  .student-sidebar .sidebar-logout { top: 19px; right: 12px; }
   .brand-name { font-size: 13px; }
   .nav-link { gap: 7px; font-size: 0; }
   .nav-glyph { font-size: 9px; }
