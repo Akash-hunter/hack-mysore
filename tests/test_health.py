@@ -8,9 +8,9 @@ def test_index_renders_discovery_frontend():
 
     assert response.status_code == 200
     assert response.mimetype == "text/html"
-    assert "Recruiter dashboard" in response.get_data(as_text=True)
-    assert "Maya Chen" in response.get_data(as_text=True)
-    assert "Northbridge Institute" in response.get_data(as_text=True)
+    assert "Talent Ecosystem" in response.get_data(as_text=True)
+    assert 'href="/login"' in response.get_data(as_text=True)
+    assert 'href="/signup"' in response.get_data(as_text=True)
 
 
 def test_health_returns_ok():

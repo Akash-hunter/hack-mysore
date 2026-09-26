@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b32">
+  <title>{{ 'Create account' if mode == 'signup' else 'Sign in' }} | Talent Ecosystem</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+  <script defer src="{{ url_for('static', filename='account-flow.js') }}"></script>
+</head>
+<body class="auth-body">
+  <main class="auth-layout">
+    <aside class="auth-rail" aria-label="Talent Ecosystem">
+      <a class="auth-brand" href="/" aria-label="Talent Ecosystem home">
+        <span class="brand-mark">T</span>
+        <span class="brand-name">talent<span>/</span>fieldwork</span>
+      </a>
+      <div class="rail-art" aria-hidden="true">
+        <div class="rail-index">PLATFORM / ACCESS</div>
+        <div class="rail-grid">
+          <span class="rail-line line-one"></span>
+          <span class="rail-line line-two"></span>
+          <span class="rail-line line-three"></span>
+          <span class="rail-node node-one">S</span>
+          <span class="rail-node node-two">R</span>
+          <span class="rail-node node-three">I</span>
+        </div>
+        <div class="rail-art-foot"><span>01</span><span>ACCOUNT ACCESS</span></div>
+      </div>
+      <div class="rail-bottom">
+        <span>LOCAL PREVIEW</span>
+        <span>Authentication is not connected</span>
+      </div>
+    </aside>
+
+    <section class="auth-main" aria-labelledby="account-title">
+      <div class="auth-topline">
+        <a class="return-link" href="/"><span aria-hidden="true">&larr;</span> Back to home</a>
+        <span class="secure-label"><span class="secure-dot"></span>LOCAL / NO CREDENTIALS STORED</span>
+      </div>
+
+      <div class="auth-content">
+        <div class="flow-progress" aria-label="Account flow steps">
+          <span class="flow-step active"><span>01</span>Account</span>
+          <span class="flow-connector"></span>
+          <span class="flow-step"><span>02</span>Role</span>
+          <span class="flow-connector"></span>
+          <span class="flow-step"><span>03</span>Portal</span>
+        </div>
+
+        <section class="auth-step" aria-labelledby="account-title">
+          <p class="auth-eyebrow">ACCOUNT ACCESS / 01</p>
+          <h1 id="account-title">{{ 'Create your account' if mode == 'signup' else 'Welcome back' }}</h1>
+          <p class="auth-subtitle">{{ 'Start with an account, then choose your workspace.' if mode == 'signup' else 'Sign in, then choose the workspace you need.' }}</p>
+
+          <form id="account-form" action="/select-role" method="get" data-flow="{{ mode }}">
+            {% if mode == 'signup' %}
+            <label class="auth-field">
+              <span>Full name</span>
+              <input type="text" autocomplete="off" placeholder="Your name" required>
+            </label>
+            {% endif %}
+            <label class="auth-field">
+              <span>Email address</span>
+              <input type="email" autocomplete="off" placeholder="name@example.com" required>
+            </label>
+            <label class="auth-field">
+              <span>Password</span>
+              <input type="password" autocomplete="off" placeholder="Enter password" required>
+            </label>
+            <p class="credential-notice"><strong>Demo only.</strong> Authentication is not connected. Do not enter real credentials.</p>
+            <button class="auth-primary" type="submit">Continue to role selection <span aria-hidden="true">&rarr;</span></button>
+          </form>
+
+          <p class="account-alternate">
+            {{ 'Already have an account?' if mode == 'signup' else 'New to Talent Ecosystem?' }}
+            <a href="{{ '/login' if mode == 'signup' else '/signup' }}">{{ 'Sign in' if mode == 'signup' else 'Create an account' }}</a>
+          </p>
+        </section>
+      </div>
+
+      <footer class="auth-footer">
+        <span>TALENT ECOSYSTEM / MVP PREVIEW</span>
+        <span>Sample data only</span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

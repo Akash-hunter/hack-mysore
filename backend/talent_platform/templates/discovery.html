@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f3f5f2">
-  <title>Candidate Discovery | Talent Ecosystem</title>
+  <title>{{ initial_role|capitalize }} portal | Talent Ecosystem</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  {% if initial_role == 'recruiter' %}
   <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+  {% endif %}
 </head>
-<body>
+<body data-initial-role="{{ initial_role }}">
   <a class="skip-link" href="#main-content">Skip to candidate discovery</a>
   <div class="app-shell">
     <aside class="sidebar" aria-label="Workspace navigation">
@@ -19,12 +21,11 @@
       <div class="workspace-label">WORKSPACE</div>
       <a class="nav-link active" href="#main-content" aria-current="page">
         <span class="nav-glyph" aria-hidden="true">01</span>
-        <span>Role dashboards</span>
+        <span>{{ initial_role|capitalize }} portal</span>
       </a>
-      <a class="nav-link" href="/login">
-        <span class="nav-glyph" aria-hidden="true">02</span>
-        <span>Change role</span>
-      </a>
+      <form class="sidebar-logout" action="/logout" method="post">
+        <button type="submit">Sign out</button>
+      </form>
       <div class="sidebar-divider"></div>
       <div class="sidebar-note">
         <span class="status-dot" aria-hidden="true"></span>
@@ -42,30 +43,29 @@
 
     <div class="main-column">
       <header class="topbar">
-        <div class="breadcrumbs"><span>Recruiting</span><span class="crumb-slash">/</span><strong>Discovery</strong></div>
+        <div class="breadcrumbs"><span>{{ initial_role|capitalize }}</span><span class="crumb-slash">/</span><strong>Portal</strong></div>
         <div class="topbar-tools">
           <span class="environment-pill"><span class="environment-dot"></span>LOCAL PREVIEW</span>
-          <span class="user-mark" aria-label="Demo recruiter">DR</span>
+          <span class="user-mark" aria-label="{{ initial_role|capitalize }} preview">{{ {'student': 'SP', 'recruiter': 'RP', 'institution': 'IP'}[initial_role] }}</span>
         </div>
       </header>
 
       <main id="main-content" class="page-content">
         <section class="page-heading" aria-labelledby="page-title">
           <div>
-            <p id="page-eyebrow" class="eyebrow">RECRUITING <span>/</span> TALENT POOL</p>
-            <h1 id="page-title">Recruiter dashboard</h1>
-            <p id="page-subtitle" class="page-subtitle">Review candidate evidence against an open role.</p>
+            <p id="page-eyebrow" class="eyebrow">{{ initial_role|upper }} <span>/</span> PERSONAL WORKSPACE</p>
+            <h1 id="page-title">{{ initial_role|capitalize }} dashboard</h1>
+            <p id="page-subtitle" class="page-subtitle">
+              {% if initial_role == 'student' %}Track evidence, applications, and current opportunities.
+              {% elif initial_role == 'recruiter' %}Review candidate evidence against an open role.
+              {% else %}Review cohort evidence coverage and placement activity.{% endif %}
+            </p>
           </div>
           <span class="demo-stamp"><span class="stamp-dot"></span>SAMPLE DATA</span>
         </section>
 
-        <div class="dashboard-tabs" role="tablist" aria-label="Sample dashboard role">
-          <button id="tab-student" class="dashboard-tab" type="button" role="tab" aria-selected="false" aria-controls="student-dashboard" tabindex="-1" data-dashboard-tab="student">Student</button>
-          <button id="tab-recruiter" class="dashboard-tab" type="button" role="tab" aria-selected="true" aria-controls="recruiter-dashboard" tabindex="0" data-dashboard-tab="recruiter">Recruiter</button>
-          <button id="tab-institution" class="dashboard-tab" type="button" role="tab" aria-selected="false" aria-controls="institution-dashboard" tabindex="-1" data-dashboard-tab="institution">Institution</button>
-        </div>
-
-        <section id="student-dashboard" class="role-dashboard student-dashboard" role="tabpanel" aria-labelledby="tab-student" tabindex="0" hidden>
+        {% if initial_role == 'student' %}
+        <section id="student-dashboard" class="role-dashboard student-dashboard" aria-labelledby="page-title">
           <div class="dashboard-intro">
             <div>
               <p class="panel-kicker">STUDENT / PERSONAL PROFILE</p>
@@ -153,7 +153,8 @@
           </section>
         </section>
 
-        <section id="recruiter-dashboard" class="role-dashboard" role="tabpanel" aria-labelledby="tab-recruiter" tabindex="0">
+        {% elif initial_role == 'recruiter' %}
+        <section id="recruiter-dashboard" class="role-dashboard" aria-labelledby="page-title">
         <section class="filters" aria-label="Candidate search and filters">
           <label class="filter-field role-field" for="job-select">
             <span>OPEN ROLE</span>
@@ -215,7 +216,8 @@
         </div>
         </section>
 
-        <section id="institution-dashboard" class="role-dashboard institution-dashboard" role="tabpanel" aria-labelledby="tab-institution" tabindex="0" hidden>
+        {% else %}
+        <section id="institution-dashboard" class="role-dashboard institution-dashboard" aria-labelledby="page-title">
           <div class="dashboard-intro institution-intro">
             <div>
               <p class="panel-kicker">INSTITUTION / PLACEMENT OFFICE</p>
@@ -289,6 +291,7 @@
             </div>
           </section>
         </section>
+        {% endif %}
 
         <footer class="page-footer">
           <span>DEMO ENVIRONMENT</span>
@@ -298,6 +301,8 @@
     </div>
   </div>
 
-  <script id="demo-data" type="application/json">{{ demo_data|tojson }}</script>
+  {% if initial_role == 'recruiter' %}
+  <script id="demo-data" type="application/json">{{ {"default_job": demo_data.default_job, "jobs": demo_data.jobs, "candidates": demo_data.candidates}|tojson }}</script>
+  {% endif %}
 </body>
 </html>

@@ -8,16 +8,17 @@ def test_discovery_template_renders_sample_data():
     app = create_app({"TESTING": True})
 
     with app.test_request_context("/"):
-        html = render_template("discovery.html", demo_data=DEMO_DATA)
+        html = render_template(
+            "discovery.html", demo_data=DEMO_DATA, initial_role="recruiter"
+        )
 
     assert "Recruiter dashboard" in html
     assert "SAMPLE DATA" in html
     assert "demo-data" in html
-    assert 'data-dashboard-tab="student"' in html
-    assert 'data-dashboard-tab="recruiter"' in html
-    assert 'data-dashboard-tab="institution"' in html
-    assert "Northbridge Institute" in html
-    assert "Placement pipeline" in html
+    assert 'id="recruiter-dashboard"' in html
+    assert 'id="student-dashboard"' not in html
+    assert 'id="institution-dashboard"' not in html
+    assert "data-dashboard-tab" not in html
 
 
 def test_dashboard_assets_are_served():

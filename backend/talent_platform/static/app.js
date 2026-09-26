@@ -9,44 +9,9 @@ const candidateList = document.querySelector("#candidate-list");
 const candidateDetail = document.querySelector("#candidate-detail");
 const emptyState = document.querySelector("#empty-state");
 const resultsCount = document.querySelector("#results-count");
-const dashboardTabs = [...document.querySelectorAll("[data-dashboard-tab]")];
-const dashboardViews = [...document.querySelectorAll(".role-dashboard")];
 const savedCandidates = new Set();
 let showingSavedOnly = false;
 let selectedCandidateId = data.candidates[0]?.id ?? null;
-const dashboardCopy = {
-  student: {
-    eyebrow: "STUDENT / PROFILE AND OPPORTUNITIES",
-    title: "Student dashboard",
-    subtitle: "Track evidence, applications, and current opportunities.",
-  },
-  recruiter: {
-    eyebrow: "RECRUITING / TALENT POOL",
-    title: "Recruiter dashboard",
-    subtitle: "Review candidate evidence against an open role.",
-  },
-  institution: {
-    eyebrow: "INSTITUTION / COHORT OUTCOMES",
-    title: "Institution dashboard",
-    subtitle: "Review cohort evidence coverage and placement activity.",
-  },
-};
-
-function switchDashboard(role) {
-  const copy = dashboardCopy[role];
-  for (const tab of dashboardTabs) {
-    const selected = tab.dataset.dashboardTab === role;
-    tab.setAttribute("aria-selected", String(selected));
-    tab.tabIndex = selected ? 0 : -1;
-  }
-  for (const view of dashboardViews) {
-    view.hidden = view.id !== `${role}-dashboard`;
-  }
-  document.querySelector("#page-eyebrow").textContent = copy.eyebrow;
-  document.querySelector("#page-title").textContent = copy.title;
-  document.querySelector("#page-subtitle").textContent = copy.subtitle;
-  document.title = `${copy.title} | Talent Ecosystem`;
-}
 
 function makeElement(tag, className, text) {
   const element = document.createElement(tag);
@@ -231,21 +196,6 @@ function updateView() {
 
 fillJobOptions();
 updateView();
-const requestedDashboard = new URLSearchParams(window.location.search).get("role");
-switchDashboard(dashboardCopy[requestedDashboard] ? requestedDashboard : "recruiter");
-
-for (const tab of dashboardTabs) {
-  tab.addEventListener("click", () => switchDashboard(tab.dataset.dashboardTab));
-  tab.addEventListener("keydown", (event) => {
-    if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-    event.preventDefault();
-    const direction = event.key === "ArrowRight" ? 1 : -1;
-    const currentIndex = dashboardTabs.indexOf(tab);
-    const nextTab = dashboardTabs[(currentIndex + direction + dashboardTabs.length) % dashboardTabs.length];
-    switchDashboard(nextTab.dataset.dashboardTab);
-    nextTab.focus();
-  });
-}
 
 jobSelect.addEventListener("change", updateView);
 searchInput.addEventListener("input", updateView);

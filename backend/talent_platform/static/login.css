@@ -71,6 +71,8 @@
 .preview-link span { font-size: 15px; font-weight: 400; }
 .auth-footer { display: flex; justify-content: space-between; gap: 12px; color: #87938c; font-size: 8px; }
 .auth-footer span:first-child { color: #587066; font-weight: 700; letter-spacing: 0.6px; }
+.account-alternate { margin: 16px 0 0; color: #76837c; font-size: 9px; text-align: center; }
+.account-alternate a { margin-left: 4px; color: var(--teal); font-weight: 700; text-underline-offset: 3px; }
 
 @media (max-width: 760px) {
   .auth-layout { grid-template-columns: minmax(0, 1fr); }
