@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f5f2">
+  <title>Candidate Discovery | Talent Ecosystem</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to candidate discovery</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Workspace navigation">
+      <a class="brand" href="/" aria-label="Talent Ecosystem workspace">
+        <span class="brand-mark">T</span>
+        <span class="brand-name">talent<span>/</span>fieldwork</span>
+      </a>
+      <div class="workspace-label">WORKSPACE</div>
+      <a class="nav-link active" href="#main-content" aria-current="page">
+        <span class="nav-glyph" aria-hidden="true">01</span>
+        <span>Role dashboards</span>
+      </a>
+      <a class="nav-link" href="/login">
+        <span class="nav-glyph" aria-hidden="true">02</span>
+        <span>Change role</span>
+      </a>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-note">
+        <span class="status-dot" aria-hidden="true"></span>
+        <div>
+          <strong>Sample workspace</strong>
+          <span>Local demo data</span>
+        </div>
+      </div>
+      <div class="sidebar-bottom">
+        <span class="sidebar-kicker">BUILD</span>
+        <span>Talent Ecosystem</span>
+        <span class="version-label">MVP preview / 0.1</span>
+      </div>
+    </aside>
+
+    <div class="main-column">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Recruiting</span><span class="crumb-slash">/</span><strong>Discovery</strong></div>
+        <div class="topbar-tools">
+          <span class="environment-pill"><span class="environment-dot"></span>LOCAL PREVIEW</span>
+          <span class="user-mark" aria-label="Demo recruiter">DR</span>
+        </div>
+      </header>
+
+      <main id="main-content" class="page-content">
+        <section class="page-heading" aria-labelledby="page-title">
+          <div>
+            <p id="page-eyebrow" class="eyebrow">RECRUITING <span>/</span> TALENT POOL</p>
+            <h1 id="page-title">Recruiter dashboard</h1>
+            <p id="page-subtitle" class="page-subtitle">Review candidate evidence against an open role.</p>
+          </div>
+          <span class="demo-stamp"><span class="stamp-dot"></span>SAMPLE DATA</span>
+        </section>
+
+        <div class="dashboard-tabs" role="tablist" aria-label="Sample dashboard role">
+          <button id="tab-student" class="dashboard-tab" type="button" role="tab" aria-selected="false" aria-controls="student-dashboard" tabindex="-1" data-dashboard-tab="student">Student</button>
+          <button id="tab-recruiter" class="dashboard-tab" type="button" role="tab" aria-selected="true" aria-controls="recruiter-dashboard" tabindex="0" data-dashboard-tab="recruiter">Recruiter</button>
+          <button id="tab-institution" class="dashboard-tab" type="button" role="tab" aria-selected="false" aria-controls="institution-dashboard" tabindex="-1" data-dashboard-tab="institution">Institution</button>
+        </div>
+
+        <section id="student-dashboard" class="role-dashboard student-dashboard" role="tabpanel" aria-labelledby="tab-student" tabindex="0" hidden>
+          <div class="dashboard-intro">
+            <div>
+              <p class="panel-kicker">STUDENT / PERSONAL PROFILE</p>
+              <h2>{{ demo_data.student.name }}</h2>
+              <p>{{ demo_data.student.program }}</p>
+            </div>
+            <span class="visibility-badge"><span class="status-dot"></span>OPTED IN TO DISCOVERY</span>
+          </div>
+
+          <div class="metric-grid student-metrics">
+            {% for metric in demo_data.student.metrics %}
+            <article class="metric-card">
+              <span class="metric-label">{{ metric.label }}</span>
+              <strong>{{ metric.value }}</strong>
+              <span class="metric-note">{{ metric.note }}</span>
+            </article>
+            {% endfor %}
+          </div>
+
+          <div class="role-dashboard-grid student-content-grid">
+            <section class="surface-panel" aria-labelledby="student-evidence-title">
+              <div class="panel-heading">
+                <div><p class="panel-kicker">PROFILE ACTIVITY</p><h2 id="student-evidence-title">Recent evidence</h2></div>
+                <span class="panel-aside">{{ demo_data.student.evidence|length }} recent</span>
+              </div>
+              <div class="evidence-feed">
+                {% for item in demo_data.student.evidence %}
+                <article class="feed-row">
+                  <span class="feed-marker {{ 'verified-marker' if item.status == 'Verified' else '' }}" aria-hidden="true"></span>
+                  <div class="feed-copy">
+                    <div class="feed-title-row"><strong>{{ item.title }}</strong><span class="feed-date">{{ item.date }}</span></div>
+                    <span>{{ item.kind }} / {{ item.skill }}</span>
+                  </div>
+                  <span class="evidence-label {{ 'verified-label' if item.status == 'Verified' else '' }}">{{ item.status }}</span>
+                </article>
+                {% endfor %}
+              </div>
+            </section>
+
+            <section class="surface-panel" aria-labelledby="student-skills-title">
+              <div class="panel-heading">
+                <div><p class="panel-kicker">EVIDENCE INDEX</p><h2 id="student-skills-title">Skills with evidence</h2></div>
+                <span class="panel-aside">Selected skills</span>
+              </div>
+              <div class="skill-index">
+                {% for skill in demo_data.student.skills %}
+                <div class="skill-index-row">
+                  <span class="skill-index-name">{{ skill.name }}</span>
+                  <span class="skill-index-latest">{{ skill.latest }}</span>
+                  <span class="skill-index-count">{{ skill.count }}</span>
+                </div>
+                {% endfor %}
+              </div>
+              <p class="panel-note">Evidence count describes submitted records, not proficiency.</p>
+            </section>
+          </div>
+
+          <section class="surface-panel applications-panel" aria-labelledby="applications-title">
+            <div class="panel-heading">
+              <div><p class="panel-kicker">CAREER ACTIVITY</p><h2 id="applications-title">Applications</h2></div>
+              <span class="panel-aside">{{ demo_data.student.applications|length }} active</span>
+            </div>
+            <div class="application-list">
+              {% for application in demo_data.student.applications %}
+              <article class="application-row">
+                <div><strong>{{ application.role }}</strong><span>{{ application.organization }}</span></div>
+                <span class="application-stage {{ application.tone }}">{{ application.stage }}</span>
+                <span class="application-updated">{{ application.updated }}</span>
+              </article>
+              {% endfor %}
+            </div>
+          </section>
+
+          <section class="opportunities-section" aria-labelledby="opportunities-title">
+            <div class="section-heading"><h3 id="opportunities-title">Open opportunities</h3><span>Sample listings</span></div>
+            <div class="opportunity-grid">
+              {% for opportunity in demo_data.student.opportunities %}
+              <article class="opportunity-row">
+                <span class="opportunity-mark" aria-hidden="true">{{ loop.index }}</span>
+                <div><strong>{{ opportunity.role }}</strong><span>{{ opportunity.organization }} / {{ opportunity.location }}</span></div>
+                <span class="opportunity-skills">{{ opportunity.skills }}</span>
+              </article>
+              {% endfor %}
+            </div>
+          </section>
+        </section>
+
+        <section id="recruiter-dashboard" class="role-dashboard" role="tabpanel" aria-labelledby="tab-recruiter" tabindex="0">
+        <section class="filters" aria-label="Candidate search and filters">
+          <label class="filter-field role-field" for="job-select">
+            <span>OPEN ROLE</span>
+            <select id="job-select"></select>
+          </label>
+          <label class="filter-field search-field" for="search-input">
+            <span>SEARCH</span>
+            <span class="search-control"><span class="search-icon" aria-hidden="true"></span><input id="search-input" type="search" placeholder="Name, skill, or school" autocomplete="off"></span>
+          </label>
+          <label class="filter-field location-field" for="location-select">
+            <span>LOCATION</span>
+            <select id="location-select">
+              <option value="all">All locations</option>
+              <option value="Boston">Boston area</option>
+              <option value="New York">New York</option>
+            </select>
+          </label>
+          <button id="saved-filter" class="saved-filter" type="button" aria-pressed="false">
+            <span class="bookmark-icon" aria-hidden="true"></span>
+            <span>Saved only</span>
+            <span id="saved-count" class="saved-count">0</span>
+          </button>
+        </section>
+
+        <section class="role-brief" aria-labelledby="role-title">
+          <div class="role-identity">
+            <div class="role-monogram" aria-hidden="true">MW</div>
+            <div>
+              <div class="role-overline"><span class="open-dot"></span>OPEN POSITION <span class="role-divider">/</span> MERIDIAN WORKS</div>
+              <h2 id="role-title">Java Backend Intern</h2>
+              <p id="role-meta">Platform Engineering <span>/</span> Internship <span>/</span> Boston / Hybrid</p>
+            </div>
+          </div>
+          <div class="requirements-block">
+            <span class="requirements-label">ROLE REQUIREMENTS</span>
+            <div id="requirement-chips" class="requirement-chips" aria-live="polite"></div>
+          </div>
+        </section>
+
+        <div id="discovery-view" class="discovery-grid">
+          <section class="list-panel" aria-labelledby="list-title">
+            <div class="panel-heading">
+              <div>
+                <p class="panel-kicker">CANDIDATES</p>
+                <h2 id="list-title">Talent pool</h2>
+              </div>
+              <span id="results-count" class="result-count" aria-live="polite"></span>
+            </div>
+            <div id="candidate-list" class="candidate-list" aria-label="Candidate results"></div>
+            <div id="empty-state" class="empty-state" hidden>
+              <span class="empty-mark" aria-hidden="true">--</span>
+              <h3>No candidates found</h3>
+              <p>Adjust the search or filters to see more profiles.</p>
+            </div>
+            <div class="list-footnote">Evidence coverage is shown per role requirement. It is not a candidate score.</div>
+          </section>
+
+          <section id="candidate-detail" class="detail-panel" aria-label="Selected candidate details" aria-live="polite"></section>
+        </div>
+        </section>
+
+        <section id="institution-dashboard" class="role-dashboard institution-dashboard" role="tabpanel" aria-labelledby="tab-institution" tabindex="0" hidden>
+          <div class="dashboard-intro institution-intro">
+            <div>
+              <p class="panel-kicker">INSTITUTION / PLACEMENT OFFICE</p>
+              <h2>{{ demo_data.institution.name }}</h2>
+              <p>{{ demo_data.institution.term }} <span>/</span> Sample reporting view</p>
+            </div>
+            <span class="visibility-badge institution-badge"><span class="status-dot"></span>COHORT OVERVIEW</span>
+          </div>
+
+          <div class="metric-grid institution-metrics">
+            {% for metric in demo_data.institution.metrics %}
+            <article class="metric-card institution-metric-card">
+              <span class="metric-label">{{ metric.label }}</span>
+              <strong>{{ metric.value }}</strong>
+              <span class="metric-note">{{ metric.note }}</span>
+            </article>
+            {% endfor %}
+          </div>
+
+          <div class="role-dashboard-grid institution-content-grid">
+            <section class="surface-panel" aria-labelledby="department-title">
+              <div class="panel-heading">
+                <div><p class="panel-kicker">PROFILE EVIDENCE</p><h2 id="department-title">By department</h2></div>
+                <span class="panel-aside">Students with evidence</span>
+              </div>
+              <div class="department-list">
+                {% for department in demo_data.institution.departments %}
+                <div class="department-row">
+                  <div class="department-heading"><strong>{{ department.name }}</strong><span>{{ department.students }}</span></div>
+                  <div class="department-track" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ department.coverage }}" aria-label="{{ department.name }} profiles with evidence">
+                    <span style="--coverage: {{ department.coverage }}%"></span>
+                  </div>
+                  <span class="department-value">{{ department.coverage }}% of profiles</span>
+                </div>
+                {% endfor %}
+              </div>
+              <p class="panel-note">Coverage means a profile has at least one evidence item; it is not a skill rating.</p>
+            </section>
+
+            <section class="surface-panel" aria-labelledby="placement-title">
+              <div class="panel-heading">
+                <div><p class="panel-kicker">CURRENT COHORT</p><h2 id="placement-title">Placement pipeline</h2></div>
+                <span class="panel-aside">Sample counts</span>
+              </div>
+              <div class="pipeline-list">
+                {% for stage in demo_data.institution.pipeline %}
+                <div class="pipeline-row">
+                  <span class="pipeline-stage">{{ stage.stage }}</span>
+                  <div class="pipeline-track"><span style="--pipeline-width: {{ stage.width }}%"></span></div>
+                  <strong>{{ stage.count }}</strong>
+                </div>
+                {% endfor %}
+              </div>
+              <div class="pipeline-caption"><span>Applications</span><span>Placements</span></div>
+            </section>
+          </div>
+
+          <section class="surface-panel activity-panel" aria-labelledby="institution-activity-title">
+            <div class="panel-heading">
+              <div><p class="panel-kicker">RECENT UPDATES</p><h2 id="institution-activity-title">Cohort activity</h2></div>
+              <span class="panel-aside">{{ demo_data.institution.activity|length }} updates</span>
+            </div>
+            <div class="institution-activity-list">
+              {% for activity in demo_data.institution.activity %}
+              <article class="institution-activity-row">
+                <span class="activity-mark" aria-hidden="true"></span>
+                <div><strong>{{ activity.title }}</strong><span>{{ activity.detail }}</span></div>
+                <time>{{ activity.date }}</time>
+              </article>
+              {% endfor %}
+            </div>
+          </section>
+        </section>
+
+        <footer class="page-footer">
+          <span>DEMO ENVIRONMENT</span>
+          <span>Profiles and evidence are fictional sample records. No external sources are connected.</span>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <script id="demo-data" type="application/json">{{ demo_data|tojson }}</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b32">
+  <title>Choose workspace | Talent Ecosystem</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+  <script defer src="{{ url_for('static', filename='login.js') }}"></script>
+</head>
+<body class="auth-body">
+  <main class="auth-layout">
+    <aside class="auth-rail" aria-label="Talent Ecosystem">
+      <a class="auth-brand" href="/" aria-label="Talent Ecosystem dashboard preview">
+        <span class="brand-mark">T</span>
+        <span class="brand-name">talent<span>/</span>fieldwork</span>
+      </a>
+      <div class="rail-art" aria-hidden="true">
+        <div class="rail-index">PLATFORM / ACCESS</div>
+        <div class="rail-grid">
+          <span class="rail-line line-one"></span>
+          <span class="rail-line line-two"></span>
+          <span class="rail-line line-three"></span>
+          <span class="rail-node node-one">S</span>
+          <span class="rail-node node-two">R</span>
+          <span class="rail-node node-three">I</span>
+        </div>
+        <div class="rail-art-foot"><span>01</span><span>IDENTITY GATEWAY</span></div>
+      </div>
+      <div class="rail-bottom">
+        <span>LOCAL PREVIEW</span>
+        <span>Authentication is not connected</span>
+      </div>
+    </aside>
+
+    <section class="auth-main" aria-labelledby="auth-title">
+      <div class="auth-topline">
+        <a class="return-link" href="/" aria-label="Return to dashboard preview"><span aria-hidden="true">&larr;</span> Dashboard preview</a>
+        <span class="secure-label"><span class="secure-dot"></span>LOCAL / NO CREDENTIALS STORED</span>
+      </div>
+
+      <div class="auth-content">
+        <div class="flow-progress" aria-label="Sign-in steps">
+          <span class="flow-step active" data-flow-step="1"><span>01</span>Workspace</span>
+          <span class="flow-connector"></span>
+          <span class="flow-step" data-flow-step="2"><span>02</span>Sign in</span>
+        </div>
+
+        <section id="workspace-step" class="auth-step" aria-labelledby="auth-title">
+          <p class="auth-eyebrow">ACCOUNT ACCESS / 01</p>
+          <h1 id="auth-title">Choose your workspace</h1>
+          <p class="auth-subtitle">Select the account type to continue.</p>
+
+          <div class="domain-choices" role="group" aria-label="Choose account type">
+            <button class="domain-choice" type="button" aria-pressed="false" data-domain="student">
+              <span class="domain-index">01</span>
+              <span class="domain-copy"><strong>Student</strong><span>Personal profile and opportunities</span></span>
+              <span class="choice-mark" aria-hidden="true"></span>
+            </button>
+            <button class="domain-choice" type="button" aria-pressed="false" data-domain="recruiter">
+              <span class="domain-index">02</span>
+              <span class="domain-copy"><strong>Recruiter</strong><span>Company hiring workspace</span></span>
+              <span class="choice-mark" aria-hidden="true"></span>
+            </button>
+            <button class="domain-choice" type="button" aria-pressed="false" data-domain="institution">
+              <span class="domain-index">03</span>
+              <span class="domain-copy"><strong>Institution</strong><span>Student outcomes workspace</span></span>
+              <span class="choice-mark" aria-hidden="true"></span>
+            </button>
+          </div>
+
+          <button id="continue-button" class="auth-primary" type="button" disabled>
+            Continue <span aria-hidden="true">&rarr;</span>
+          </button>
+        </section>
+
+        <section id="access-step" class="auth-step" aria-labelledby="access-title" hidden>
+          <button id="back-button" class="back-button" type="button"><span aria-hidden="true">&larr;</span> Change workspace</button>
+          <p class="auth-eyebrow">ACCOUNT ACCESS / 02 <span id="selected-domain-tag"></span></p>
+          <h1 id="access-title">Sign in</h1>
+          <p id="access-description" class="auth-subtitle"></p>
+
+          <form id="sign-in-form" novalidate>
+            <label id="organization-field" class="auth-field" hidden>
+              <span id="organization-label">Organization</span>
+              <input id="organization-input" name="organization" type="text" autocomplete="organization" placeholder="Organization name">
+            </label>
+            <label class="auth-field">
+              <span id="email-label">Email address</span>
+              <input id="email-input" name="email" type="email" autocomplete="off" placeholder="name@example.com" required>
+            </label>
+            <label class="auth-field">
+              <span>Password</span>
+              <input id="password-input" name="password" type="password" autocomplete="off" placeholder="Enter password" required>
+            </label>
+            <p class="credential-notice"><strong>Demo only.</strong> Authentication is not connected. Do not enter real credentials.</p>
+            <button class="auth-primary" type="submit">Continue <span aria-hidden="true">&rarr;</span></button>
+            <p id="sign-in-status" class="sign-in-status" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="preview-divider"><span>OR</span></div>
+          <a id="preview-link" class="preview-link" href="/dashboard?role=student">Open student dashboard preview <span aria-hidden="true">&rarr;</span></a>
+        </section>
+      </div>
+
+      <footer class="auth-footer">
+        <span>TALENT ECOSYSTEM / MVP PREVIEW</span>
+        <span>Sample data only</span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>
