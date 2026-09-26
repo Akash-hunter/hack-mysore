@@ -17,6 +17,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.3,<9"]
+monitoring-gaze = ["mediapipe>=0.10", "opencv-python-headless>=4.9"]
+monitoring-keystroke = ["scikit-learn>=1.5", "numpy>=1.26"]
 
 [tool.setuptools.packages.find]
 where = ["backend"]

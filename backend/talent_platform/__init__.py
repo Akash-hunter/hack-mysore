@@ -37,6 +37,10 @@ def create_app(test_config=None):
     db.init_app(app)
     migrate.init_app(app, db)
 
+    from .services.monitoring.routes import monitoring_bp
+    app.register_blueprint(monitoring_bp, url_prefix="/api/monitoring")
+
+
     @app.get("/")
     def landing():
         return render_template("landing.html")
