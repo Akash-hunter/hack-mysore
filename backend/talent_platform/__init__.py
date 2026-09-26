@@ -120,7 +120,11 @@ def create_app(test_config=None):
 
     @app.get("/health")
     def health():
-        return {"status": "ok"}, 200
+        return {
+            "status": "ok",
+            "version": "0.2.0",
+            "database_driver": app.config.get("SQLALCHEMY_DATABASE_URI", "").split("://")[0],
+        }, 200
 
     @app.after_request
     def add_cors_headers(response):
