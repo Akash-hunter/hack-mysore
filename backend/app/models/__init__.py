@@ -7,3 +7,5 @@ from .skill import Skill
 from .project import Project
 from .experience import Experience
 from .certification import Certification
+from .evidence import Evidence
+from .external_connection import ExternalSource, ExternalConnection
