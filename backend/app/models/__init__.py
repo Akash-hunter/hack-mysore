@@ -13,3 +13,6 @@ from .profile_snapshot import ProfileSnapshot
 from .job import Job
 from .application import Application
 from .assessment import Assessment, Question, QuestionOption, TestSession, Answer
+from .hackathon import Hackathon, HackathonProblem, HackathonParticipant, HackathonSubmission
+from .message import Conversation, ConversationMember, Message
+from .notification import Notification
