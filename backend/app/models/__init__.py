@@ -12,3 +12,4 @@ from .external_connection import ExternalSource, ExternalConnection
 from .profile_snapshot import ProfileSnapshot
 from .job import Job
 from .application import Application
+from .assessment import Assessment, Question, QuestionOption, TestSession, Answer
