@@ -10,3 +10,5 @@ from .certification import Certification
 from .evidence import Evidence
 from .external_connection import ExternalSource, ExternalConnection
 from .profile_snapshot import ProfileSnapshot
+from .job import Job
+from .application import Application
