@@ -490,12 +490,23 @@ def get_dataset_benchmark():
 @monitoring_bp.post("/dataset/seed")
 def seed_dataset():
     """Seed test candidate sessions with benchmark gaze and keystroke dataset."""
-    result = seed_monitoring_dataset()
-    return jsonify(result), 200
+    try:
+        result = seed_monitoring_dataset()
+        return jsonify(result), 200
+    except Exception as e:
+        logger.exception("Error seeding dataset: %s", e)
+        db.session.rollback()
+        return jsonify({"error": f"Failed to seed dataset: {str(e)}", "status": "error"}), 500
 
 
 @monitoring_bp.post("/cleanup")
 def trigger_retention_cleanup():
     """Purge granular telemetry samples for expired monitoring sessions."""
-    result = cleanup_expired_sessions()
-    return jsonify(result), 200
+    try:
+        result = cleanup_expired_sessions()
+        return jsonify(result), 200
+    except Exception as e:
+        logger.exception("Error executing retention cleanup: %s", e)
+        db.session.rollback()
+        return jsonify({"error": f"Failed to execute cleanup: {str(e)}", "status": "error"}), 500
+

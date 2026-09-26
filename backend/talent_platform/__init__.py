@@ -14,11 +14,13 @@ from .demo_data import DEMO_DATA
 def create_app(test_config=None):
     app = Flask(__name__)
 
-    raw_database_url = os.environ.get(
-        "DATABASE_URL",
-        "postgresql+psycopg://talent_app:local_dev_only@localhost:5432/talent_ecosystem",
-    )
-    if raw_database_url.startswith("postgres://"):
+    raw_database_url = os.environ.get("DATABASE_URL")
+    if not raw_database_url:
+        instance_dir = app.instance_path
+        os.makedirs(instance_dir, exist_ok=True)
+        db_file = os.path.join(instance_dir, "talent_ecosystem.db").replace("\\", "/")
+        database_url = f"sqlite:///{db_file}"
+    elif raw_database_url.startswith("postgres://"):
         database_url = raw_database_url.replace("postgres://", "postgresql+psycopg://", 1)
     elif raw_database_url.startswith("postgresql://") and not raw_database_url.startswith("postgresql+"):
         database_url = raw_database_url.replace("postgresql://", "postgresql+psycopg://", 1)
