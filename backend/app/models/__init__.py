@@ -9,3 +9,4 @@ from .experience import Experience
 from .certification import Certification
 from .evidence import Evidence
 from .external_connection import ExternalSource, ExternalConnection
+from .profile_snapshot import ProfileSnapshot
