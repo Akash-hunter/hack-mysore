@@ -5,8 +5,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
 
-db = SQLAlchemy()
-migrate = Migrate()
+from .extensions import db, migrate
 
 from . import models
 from .demo_data import DEMO_DATA
@@ -25,6 +24,9 @@ def create_app(test_config=None):
         database_url = raw_database_url.replace("postgresql://", "postgresql+psycopg://", 1)
     else:
         database_url = raw_database_url
+
+    if test_config and test_config.get("TESTING") and "SQLALCHEMY_DATABASE_URI" not in test_config:
+        database_url = "sqlite://"
 
     app.config.from_mapping(
         SECRET_KEY=os.environ.get("SECRET_KEY") or "talent-ecosystem-dev-secret-key-change-in-prod",

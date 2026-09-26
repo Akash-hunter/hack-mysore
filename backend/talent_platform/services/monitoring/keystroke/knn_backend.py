@@ -42,19 +42,20 @@ class KNNKeystrokeAnalyzer(KeystrokeAnalyzer):
             self._init_sklearn_baseline()
 
     def _init_sklearn_baseline(self):
-        """Initialize synthetic human baseline distribution in scikit-learn."""
+        """Initialize empirical human baseline distribution from benchmark dataset."""
         try:
-            # Generate synthetic cluster of normal human typing profiles
-            # Features: [avg_dwell, std_dwell, avg_flight, std_flight]
-            rng = np.random.default_rng(seed=42)
-            normal_dwell = rng.normal(loc=self.baseline_dwell_ms, scale=18.0, size=(100, 1))
-            normal_dwell_std = rng.normal(loc=25.0, scale=6.0, size=(100, 1))
-            normal_flight = rng.normal(loc=self.baseline_flight_ms, scale=35.0, size=(100, 1))
-            normal_flight_std = rng.normal(loc=45.0, scale=12.0, size=(100, 1))
+            from ..dataset import generate_baseline_keystroke_features
 
-            baseline_data = np.hstack([normal_dwell, normal_dwell_std, normal_flight, normal_flight_std])
-            # Clip negative values
-            baseline_data = np.clip(baseline_data, a_min=10.0, a_max=None)
+            baseline_data = generate_baseline_keystroke_features(n_samples=180)
+            if baseline_data is None:
+                # Fallback if numpy/dataset fails
+                rng = np.random.default_rng(seed=42)
+                normal_dwell = rng.normal(loc=self.baseline_dwell_ms, scale=18.0, size=(100, 1))
+                normal_dwell_std = rng.normal(loc=25.0, scale=6.0, size=(100, 1))
+                normal_flight = rng.normal(loc=self.baseline_flight_ms, scale=35.0, size=(100, 1))
+                normal_flight_std = rng.normal(loc=45.0, scale=12.0, size=(100, 1))
+                baseline_data = np.hstack([normal_dwell, normal_dwell_std, normal_flight, normal_flight_std])
+                baseline_data = np.clip(baseline_data, a_min=10.0, a_max=None)
 
             self._knn_model = NearestNeighbors(n_neighbors=5, metric="euclidean")
             self._knn_model.fit(baseline_data)

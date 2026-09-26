@@ -1,6 +1,7 @@
 from sqlalchemy import CheckConstraint, UniqueConstraint
 
-from . import db
+from ..extensions import db
+from .monitoring import MonitoringSession, GazeSample, KeystrokeEvent, Assessment
 
 
 class TimestampMixin:
@@ -232,3 +233,22 @@ class JobSkillRequirement(TimestampMixin, db.Model):
 
     job = db.relationship("Job", back_populates="skill_requirements")
     skill = db.relationship("Skill", back_populates="job_requirements")
+
+
+__all__ = [
+    "TimestampMixin",
+    "User",
+    "Organization",
+    "OrganizationMembership",
+    "StudentProfile",
+    "InstitutionAffiliation",
+    "Skill",
+    "EvidenceItem",
+    "EvidenceSkill",
+    "Job",
+    "JobSkillRequirement",
+    "MonitoringSession",
+    "GazeSample",
+    "KeystrokeEvent",
+    "Assessment",
+]
