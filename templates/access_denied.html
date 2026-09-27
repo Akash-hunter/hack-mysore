@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b32">
+  <title>Workspace unavailable | Talent Ecosystem</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+</head>
+<body class="auth-body">
+  <main class="auth-layout">
+    <aside class="auth-rail" aria-label="Talent Ecosystem">
+      <a class="auth-brand" href="/" aria-label="Talent Ecosystem home">
+        <span class="brand-mark">T</span>
+        <span class="brand-name">talent<span>/</span>fieldwork</span>
+      </a>
+      <div class="rail-art" aria-hidden="true">
+        <div class="rail-index">ACCESS / ROLE BOUNDARY</div>
+        <div class="rail-grid">
+          <span class="rail-line line-one"></span>
+          <span class="rail-line line-two"></span>
+          <span class="rail-line line-three"></span>
+          <span class="rail-node node-one">S</span>
+          <span class="rail-node node-two">R</span>
+          <span class="rail-node node-three">I</span>
+        </div>
+        <div class="rail-art-foot"><span>403</span><span>WORKSPACE ACCESS</span></div>
+      </div>
+      <div class="rail-bottom">
+        <span>LOCAL PREVIEW</span>
+        <span>This session has one selected role</span>
+      </div>
+    </aside>
+
+    <section class="auth-main" aria-labelledby="denied-title">
+      <div class="auth-topline">
+        <a class="return-link" href="/"><span aria-hidden="true">&larr;</span> Back to home</a>
+        <span class="secure-label"><span class="secure-dot"></span>ROLE-SCOPED PREVIEW</span>
+      </div>
+      <div class="auth-content">
+        <p class="auth-eyebrow">ACCESS CONTROL / 403</p>
+        <h1 id="denied-title">This workspace is unavailable</h1>
+        <p class="auth-subtitle">
+          {% if preview_role %}
+          This session is set to the {{ preview_role }} role. Sign out before choosing a different workspace.
+          {% else %}
+          Choose a role through the account flow before opening a portal.
+          {% endif %}
+        </p>
+        {% if preview_role %}
+        <a class="auth-primary access-action" href="{{ url_for('role_portal', role=preview_role) }}">Return to {{ preview_role|capitalize }} portal <span aria-hidden="true">&rarr;</span></a>
+        <form class="access-signout" action="/logout" method="post">
+          <button class="back-button" type="submit">Sign out and choose another role</button>
+        </form>
+        {% else %}
+        <a class="auth-primary access-action" href="/login">Continue to sign in <span aria-hidden="true">&rarr;</span></a>
+        {% endif %}
+      </div>
+      <footer class="auth-footer">
+        <span>TALENT ECOSYSTEM / MVP PREVIEW</span>
+        <span>Preview role only; authentication is not connected</span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

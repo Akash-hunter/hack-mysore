@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b32">
+  <title>Talent Ecosystem | Evidence to opportunity</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
+</head>
+<body class="landing-body">
+  <a class="skip-link" href="#landing-main">Skip to main content</a>
+  <header class="landing-nav">
+    <a class="landing-brand" href="/" aria-label="Talent Ecosystem home">
+      <span class="brand-mark">T</span>
+      <span class="brand-name">talent<span>/</span>fieldwork</span>
+    </a>
+    <nav class="landing-actions" aria-label="Account">
+      <a class="landing-signin" href="/login">Sign in</a>
+      <a class="landing-create" href="/signup">Create account <span aria-hidden="true">&rarr;</span></a>
+    </nav>
+  </header>
+
+  <main id="landing-main">
+    <section class="landing-hero" aria-labelledby="landing-title">
+      <div class="hero-copy">
+        <p class="landing-eyebrow"><span></span>SKILLS / EVIDENCE / OPPORTUNITY</p>
+        <h1 id="landing-title">Talent Ecosystem</h1>
+        <p class="hero-lede">A clearer path between what people can do and where they can go next.</p>
+        <p class="hero-detail">Students build an evidence-backed profile. Recruiters see why experience fits a role. Institutions follow outcomes across their cohorts.</p>
+        <div class="hero-actions">
+          <a class="hero-primary" href="/signup">Create your account <span aria-hidden="true">&rarr;</span></a>
+          <a class="hero-secondary" href="/login">Sign in</a>
+        </div>
+        <div class="hero-trust"><span class="trust-mark">01</span><span>Evidence stays distinct from proficiency. Visibility starts with student choice.</span></div>
+      </div>
+
+      <div class="evidence-visual" aria-label="Illustration of a project connected to evidence and a role requirement">
+        <div class="visual-topline"><span>PROFILE SIGNAL / SAMPLE</span><span>01 - 03</span></div>
+        <div class="visual-flow">
+          <div class="visual-source">
+            <span class="visual-index">SOURCE 01</span>
+            <strong>Inventory API</strong>
+            <span>PROJECT / JAVA</span>
+          </div>
+          <div class="visual-connector"><span></span></div>
+          <div class="visual-evidence">
+            <span class="visual-index">EVIDENCE</span>
+            <div class="evidence-check">&#10003;</div>
+            <strong>Repository linked</strong>
+            <span>OBSERVED 6 WEEKS AGO</span>
+          </div>
+          <div class="visual-connector"><span></span></div>
+          <div class="visual-requirement">
+            <span class="visual-index">ROLE REQUIREMENT</span>
+            <strong>Spring Boot</strong>
+            <span>RELEVANT PROJECT EVIDENCE</span>
+          </div>
+        </div>
+        <div class="visual-footer"><span>CONTEXT, NOT A UNIVERSAL SCORE</span><span class="visual-status">LOCAL PREVIEW</span></div>
+      </div>
+
+      <div class="hero-index" aria-hidden="true">FIELDNOTE  /  001</div>
+    </section>
+
+    <section class="pathways" aria-labelledby="pathways-title">
+      <div class="pathways-heading">
+        <div>
+          <p class="landing-eyebrow light-eyebrow"><span></span>ONE ECOSYSTEM / THREE PERSPECTIVES</p>
+          <h2 id="pathways-title">Start from your role.</h2>
+        </div>
+        <a class="pathways-signup" href="/signup">Choose a workspace <span aria-hidden="true">&rarr;</span></a>
+      </div>
+      <div class="pathway-list">
+        <article class="pathway-row">
+          <span class="pathway-number">01</span>
+          <h3>Student</h3>
+          <p>Build a living profile from projects, assessments, and verified evidence.</p>
+          <span class="pathway-arrow" aria-hidden="true">&rarr;</span>
+        </article>
+        <article class="pathway-row">
+          <span class="pathway-number">02</span>
+          <h3>Recruiter</h3>
+          <p>Explore opted-in candidates and review evidence for each role requirement.</p>
+          <span class="pathway-arrow" aria-hidden="true">&rarr;</span>
+        </article>
+        <article class="pathway-row">
+          <span class="pathway-number">03</span>
+          <h3>Institution</h3>
+          <p>Understand cohort evidence coverage and placement activity.</p>
+          <span class="pathway-arrow" aria-hidden="true">&rarr;</span>
+        </article>
+      </div>
+      <footer class="landing-footer"><span>TALENT ECOSYSTEM / MVP PREVIEW</span><span>Sample records only. Authentication and live integrations are not connected.</span></footer>
+    </section>
+  </main>
+</body>
+</html>

@@ -12,14 +12,43 @@ from .demo_data import DEMO_DATA
 
 
 def create_app(test_config=None):
-    app = Flask(__name__)
+    import jinja2
+
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(base_dir))
+
+    template_dir = os.path.join(base_dir, "templates")
+    static_dir = os.path.join(base_dir, "static")
+
+    app = Flask(
+        __name__,
+        template_folder=template_dir,
+        static_folder=static_dir,
+    )
+
+    # Multi-path template loader to guarantee templates are found in all environments
+    search_dirs = [
+        template_dir,
+        os.path.join(project_root, "templates"),
+        os.path.join(os.getcwd(), "templates"),
+        os.path.join(os.getcwd(), "backend", "talent_platform", "templates"),
+    ]
+    valid_dirs = [d for d in search_dirs if os.path.isdir(d)]
+    if valid_dirs:
+        app.jinja_loader = jinja2.FileSystemLoader(valid_dirs)
 
     raw_database_url = os.environ.get("DATABASE_URL")
     if not raw_database_url:
-        instance_dir = app.instance_path
-        os.makedirs(instance_dir, exist_ok=True)
-        db_file = os.path.join(instance_dir, "talent_ecosystem.db").replace("\\", "/")
-        database_url = f"sqlite:///{db_file}"
+        if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+            database_url = "sqlite:////tmp/talent_ecosystem.db"
+        else:
+            try:
+                instance_dir = app.instance_path
+                os.makedirs(instance_dir, exist_ok=True)
+                db_file = os.path.join(instance_dir, "talent_ecosystem.db").replace("\\", "/")
+                database_url = f"sqlite:///{db_file}"
+            except (OSError, PermissionError):
+                database_url = "sqlite:////tmp/talent_ecosystem.db"
     elif raw_database_url.startswith("postgres://"):
         database_url = raw_database_url.replace("postgres://", "postgresql+psycopg://", 1)
     elif raw_database_url.startswith("postgresql://") and not raw_database_url.startswith("postgresql+"):
@@ -57,24 +86,20 @@ def create_app(test_config=None):
 
     @app.get("/login")
     def login():
-        if session.get("preview_role"):
-            return redirect(url_for("role_portal", role=session["preview_role"]))
         return render_template("account.html", mode="login")
 
     @app.get("/signup")
     def signup():
-        if session.get("preview_role"):
-            return redirect(url_for("role_portal", role=session["preview_role"]))
         return render_template("account.html", mode="signup")
 
     @app.get("/select-role")
     def select_role():
-        current_role = session.get("preview_role")
-        if current_role:
-            return redirect(url_for("role_portal", role=current_role))
         flow = request.args.get("flow", "login")
         if flow not in {"login", "signup"}:
             flow = "login"
+        current_role = session.get("preview_role")
+        if current_role and "flow" not in request.args:
+            return redirect(url_for("role_portal", role=current_role))
         return render_template("select_role.html", flow=flow)
 
     @app.post("/select-role")
